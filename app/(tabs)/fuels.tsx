@@ -11,7 +11,7 @@ export default function HomeScreen() {
       <ThemedView
         style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
       >
-        <FuelForm onSalesChange={(value) => {}} />
+        <FuelForm />
       </ThemedView>
     </ScrollView>
   );

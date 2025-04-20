@@ -5,7 +5,6 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import {
   PaperProvider,
   MD3LightTheme as LightTheme,
@@ -13,7 +12,7 @@ import {
 } from "react-native-paper";
 import i18next from "../services/i18next";
 import { I18nextProvider } from "react-i18next";
-import { NavigationContainer } from "@react-navigation/native";
+import "react-native-get-random-values";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -27,7 +26,6 @@ const theme = {
 };
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
 
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),

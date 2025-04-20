@@ -1,9 +1,25 @@
-import { Stack } from "expo-router";
-import { View, Text, Button, StyleSheet, Pressable } from "react-native";
+import { Stack, useRouter } from "expo-router";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Pressable,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
 import { ArrowIcon } from "./ui/Icons";
+import { useAppStore, AppState } from "../services/zustandStore";
+
+type SalesSummaryEntry = [
+  keyof Omit<AppState["salesSummary"], "total"> | "total",
+  number,
+];
 
 export const Home = () => {
   const [dateSpreadsheet, setDateSpreadsheet] = useState(new Date());
@@ -12,16 +28,18 @@ export const Home = () => {
   >("date");
   const [showDateSpreadsheet, setShowDateSpreadsheet] = useState(false);
   const [user, setUser] = useState("Isleman");
-  const [isleman, setIsleman] = useState("Isleman");
   const { t } = useTranslation();
+  const router = useRouter();
 
-  const onChange = (
-    event: React.SyntheticEvent,
+  const salesSummary = useAppStore((state: AppState) => state.salesSummary);
+
+  const onChangeDate = (
+    event: DateTimePickerEvent,
     selectedDate: Date | undefined
   ) => {
-    const currentDate = selectedDate;
+    const currentDate = selectedDate || dateSpreadsheet;
     setShowDateSpreadsheet(false);
-    setDateSpreadsheet(currentDate || new Date());
+    setDateSpreadsheet(currentDate);
   };
 
   const showMode = (currentMode: "date" | "time") => {
@@ -33,150 +51,193 @@ export const Home = () => {
     showMode("date");
   };
 
-  return (
-    <>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>{t("planilla de ventas")}</Text>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "row",
-        }}
+  const renderSummaryItem = ({ item }: { item: SalesSummaryEntry }) => {
+    const [key, value] = item;
+
+    const navigableKeys: Array<keyof AppState["salesSummary"]> = [
+      "fuelSales",
+      "lubricantSales",
+      "credits",
+      "cards",
+      "bonds",
+      "expenses",
+      "deposits",
+      "cash",
+    ];
+
+    const isNavigable = navigableKeys.includes(key as any);
+
+    const keyRoute = key.toLowerCase();
+    return (
+      <Pressable
+        style={styles.itemContainer}
+        onPress={() => (isNavigable ? router.push(`/details/${key}`) : {})}
+        disabled={!isNavigable}
       >
-        <Text>
-          {t("dateOfSpreadsheet")} {dateSpreadsheet.toLocaleDateString()}
-          {showDateSpreadsheet && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={dateSpreadsheet}
-              mode={modeDateSpreadsheet}
-              is24Hour={true}
-              onChange={onChange}
-            />
-          )}
+        <Text style={styles.itemKey}>{t(key)}:</Text>
+        <View style={styles.valueContainer}>
+          <Text style={styles.itemValue}>
+            {value.toLocaleString("es-CO", {
+              style: "currency",
+              currency: "COP",
+            })}
+          </Text>
+          {isNavigable && <ArrowIcon width={20} height={20} color="#555" />}
+        </View>
+      </Pressable>
+    );
+  };
+
+  const summaryData = Object.entries(salesSummary) as SalesSummaryEntry[];
+
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <Stack.Screen options={{ headerShown: false }} />
+
+      <View style={styles.headerSection}>
+        <Text style={styles.title}>{t("planilla de ventas")}</Text>
+
+        <View style={styles.infoContainer}>
+          <Pressable onPress={showDatepicker} style={styles.dateContainer}>
+            <Text>{t("dateOfSpreadsheet")}: </Text>
+            <Text style={styles.dateText}>
+              {dateSpreadsheet.toLocaleDateString("es-CO")}
+            </Text>
+          </Pressable>
+
+          <View style={styles.userContainer}>
+            <Text>{t("user")}: </Text>
+            <Text style={styles.userText}>{user}</Text>
+          </View>
+        </View>
+      </View>
+
+      {showDateSpreadsheet && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={dateSpreadsheet}
+          mode={modeDateSpreadsheet}
+          is24Hour={true}
+          display="default"
+          onChange={onChangeDate}
+        />
+      )}
+
+      <FlatList
+        data={summaryData}
+        keyExtractor={(item) => item[0]}
+        renderItem={renderSummaryItem}
+        style={styles.flatList}
+        contentContainerStyle={styles.flatListContent}
+      />
+
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalKey}>{t("total").toUpperCase()}:</Text>
+        <Text style={styles.totalValue}>
+          {salesSummary.total.toLocaleString("es-CO", {
+            style: "currency",
+            currency: "COP",
+          })}
         </Text>
       </View>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <Text>{t("user")}</Text>
-        <Text>{user}</Text>
-        <Button title={t("changeUser")} onPress={() => setUser(isleman)} />
-      </View>
-      <View style={styles.list}>
-        <View style={styles.itemList}>
-          <Text style={styles.textItemName}>
-            {t("fuelSolds").toUpperCase()}
-          </Text>
-          <Text style={styles.textItemValue}>$1.500.000</Text>
-          <Pressable onPress={() => {}}>
-            <ArrowIcon />
-          </Pressable>
-        </View>
-        <View style={styles.itemList}>
-          <Text style={styles.textItemName}>
-            {t("lubricantSolds").toUpperCase()}
-          </Text>
-          <Text style={styles.textItemValue}>$1.500.000</Text>
-          <Pressable onPress={() => {}}>
-            <ArrowIcon />
-          </Pressable>
-        </View>
-        <View style={styles.itemList}>
-          <Text style={styles.textItemName}>{t("credits").toUpperCase()}</Text>
-          <Text style={styles.textItemValue}>$1.500.000</Text>
-          <Pressable onPress={() => {}}>
-            <ArrowIcon />
-          </Pressable>
-        </View>
-        <View style={styles.itemList}>
-          <Text style={styles.textItemName}>{t("cards").toUpperCase()}</Text>
-          <Text style={styles.textItemValue}>$1.500.000</Text>
-          <Pressable onPress={() => {}}>
-            <ArrowIcon />
-          </Pressable>
-        </View>
-        <View style={styles.itemList}>
-          <Text style={styles.textItemName}>{t("bonos").toUpperCase()}</Text>
-          <Text style={styles.textItemValue}>$1.500.000</Text>
-          <Pressable onPress={() => {}}>
-            <ArrowIcon />
-          </Pressable>
-        </View>
-        <View style={styles.itemList}>
-          <Text style={styles.textItemName}>{t("expenses").toUpperCase()}</Text>
-          <Text style={styles.textItemValue}>$1.500.000</Text>
-          <Pressable onPress={() => {}}>
-            <ArrowIcon />
-          </Pressable>
-        </View>
-        <View style={styles.itemList}>
-          <Text style={styles.textItemName}>{t("deposits").toUpperCase()}</Text>
-          <Text style={styles.textItemValue}>$1.500.000</Text>
-          <Pressable onPress={() => {}}>
-            <ArrowIcon />
-          </Pressable>
-        </View>
-        <View style={styles.itemList}>
-          <Text style={styles.textItemName}>{t("cashs").toUpperCase()}</Text>
-          <Text style={styles.textItemValue}>$1.500.000</Text>
-          <Pressable onPress={() => {}}>
-            <ArrowIcon />
-          </Pressable>
-        </View>
-      </View>
-    </>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  list: {
-    paddingTop: 20,
-    paddingBottom: 20,
-  },
-  itemList: {
+  safeArea: {
     flex: 1,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    alignContent: "center",
+    backgroundColor: "#f4f4f4",
+  },
+  headerSection: {
+    padding: 15,
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 15,
+  },
+  infoContainer: {
     flexDirection: "row",
-    display: "flex",
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginTop: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
-  textItemName: {
-    fontSize: 14,
-    fontWeight: "bold",
-    textAlign: "left",
-    flex: 1,
-    alignItems: "flex-start",
-  },
-  textItemValue: {
-    flex: 1,
-    alignItems: "flex-end",
-    fontSize: 14,
-    fontWeight: "bold",
-    textAlign: "right",
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  buttonItem: {
-    backgroundColor: "#007BFF",
+  dateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#eef",
+    padding: 5,
     borderRadius: 5,
-    padding: 10,
-    marginTop: 10,
+  },
+  dateText: {
+    fontWeight: "bold",
+  },
+  userContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  userText: {
+    fontWeight: "bold",
+  },
+  flatList: {
+    flex: 1,
+  },
+  flatListContent: {
+    paddingHorizontal: 15,
+    paddingBottom: 10,
+  },
+  itemContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    borderRadius: 5,
+    marginBottom: 8,
+  },
+  itemKey: {
+    fontSize: 15,
+    fontWeight: "500",
+    textTransform: "capitalize",
+    flexShrink: 1,
+    marginRight: 10,
+  },
+  valueContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  itemValue: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#333",
+    textAlign: "right",
+    marginRight: 5,
+  },
+  totalContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 15,
+    backgroundColor: "white",
+    borderTopWidth: 1,
+    borderTopColor: "#e0e0e0",
+    marginTop: 5,
+  },
+  totalKey: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  totalValue: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "green",
   },
 });

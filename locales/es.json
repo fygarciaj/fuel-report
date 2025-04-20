@@ -93,5 +93,10 @@
   "lubricantDescription": "Descripción del Lubricante",
   "fuels": "Combustibles",
   "dateOfSpreadsheet": "Fecha",
-  "fuelSolds": "Ventas de Combustible"
+  "lubricantSales": "Ventas de Lubricantes",
+  "credits": "Créditos",
+  "cards": "Tarjetas",
+  "bonds": "Bonos",
+  "deposits": "Depósitos",
+  "cash": "Efectivo"
 }

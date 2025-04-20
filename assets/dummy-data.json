@@ -1,0 +1,251 @@
+{
+  "fuelSales": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "type": "regular",
+      "pricePerGal": 3.5,
+      "quantityGal": 10,
+      "total": 35
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440001",
+      "type": "diesel",
+      "pricePerGal": 4.0,
+      "quantityGal": 8,
+      "total": 32
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440002",
+      "type": "adBlue",
+      "pricePerGal": 2.5,
+      "quantityGal": 12,
+      "total": 30
+    }
+  ],
+  "expenses": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440003",
+      "amount": 50,
+      "description": "Office Supplies",
+      "images": [
+        {
+          "image1": "office_supplies.png",
+          "image2": "office_supplies.png"
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440004",
+      "amount": 100,
+      "description": "Fuel",
+      "images": [
+        {
+          "image1": "fuel.png"
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440005",
+      "amount": 75,
+      "description": "Maintenance",
+      "images": [
+        {
+          "image1": "maintenance.png"
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440006",
+      "amount": 50,
+      "description": "Office Supplies",
+      "images": [
+        {
+          "image1": "maintenance.png"
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440007",
+      "amount": 100,
+      "description": "Fuel",
+      "image": "fuel.png"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440008",
+      "amount": 75,
+      "description": "Maintenance",
+      "image": "maintenance.png"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440009",
+      "amount": 50,
+      "description": "Office Supplies",
+      "images": [
+        {
+          "image1": "office_supplies.png",
+          "image2": "office_supplies.png"
+        }
+      ]
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440010",
+      "amount": 100,
+      "description": "Fuel",
+      "image": "fuel.png"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440011",
+      "amount": 75,
+      "description": "Maintenance",
+      "image": "maintenance.png"
+    }
+  ],
+  "lubricants": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440012",
+      "type": "Synthetic",
+      "amount": 20,
+      "price": 5,
+      "image": "synthetic.png"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440013",
+      "type": "Conventional",
+      "amount": 30,
+      "price": 3,
+      "image": "conventional.png"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440014",
+      "type": "Mineral",
+      "amount": 15,
+      "price": 4,
+      "image": "mineral.png"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440015",
+      "type": "Conventional",
+      "amount": 30,
+      "price": 3,
+      "image": "conventional.png"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440016",
+      "type": "Mineral",
+      "amount": 15,
+      "price": 4,
+      "image": "mineral.png"
+    }
+  ],
+  "credits": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440017",
+      "amount": 1000,
+      "description": "Credit for Fuel",
+      "date": "2023-10-01"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440018",
+      "amount": 2000,
+      "description": "Credit for Lubricants",
+      "date": "2023-10-02"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440019",
+      "amount": 1500,
+      "description": "Credit for Services",
+      "date": "2023-10-03"
+    }
+  ],
+  "cards": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440020",
+      "amount": 500,
+      "description": "Card Payment",
+      "date": "2023-10-01"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440021",
+      "amount": 1000,
+      "description": "Card Payment",
+      "date": "2023-10-02"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440022",
+      "amount": 750,
+      "description": "Card Payment",
+      "date": "2023-10-03"
+    }
+  ],
+  "bonds": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440023",
+      "amount": 200,
+      "description": "Bond Payment",
+      "date": "2023-10-01"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440024",
+      "amount": 300,
+      "description": "Bond Payment",
+      "date": "2023-10-02"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440025",
+      "amount": 250,
+      "description": "Bond Payment",
+      "date": "2023-10-03"
+    }
+  ],
+  "deposits": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440026",
+      "amount": 5000,
+      "description": "Deposit for Fuel",
+      "date": "2023-10-01"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440027",
+      "amount": 7000,
+      "description": "Deposit for Lubricants",
+      "date": "2023-10-02"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440028",
+      "amount": 6000,
+      "description": "Deposit for Services",
+      "date": "2023-10-03"
+    }
+  ],
+  "cash": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440029",
+      "amount": 1000,
+      "description": "Cash Payment",
+      "date": "2023-10-01"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440030",
+      "amount": 1500,
+      "description": "Cash Payment",
+      "date": "2023-10-02"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440031",
+      "amount": 1200,
+      "description": "Cash Payment",
+      "date": "2023-10-03"
+    }
+  ],
+  "summaryDetails": {
+    "fuelSales": "$1,052,500",
+    "lubricantSales": "$150,000",
+    "credits": "$500,000",
+    "cards": "$180,000",
+    "bonds": "$50,000",
+    "expenses": "$200,000",
+    "deposits": "$800,000",
+    "cash": "$200,000",
+    "total": "$1,122,121"
+  }
+}

@@ -1,11 +1,11 @@
 import React from "react";
-import { Alert, StyleSheet, Pressable, TextStyle } from "react-native";
+import { Alert, StyleSheet, Pressable } from "react-native";
 import { DataTable } from "react-native-paper";
 import { DeleteIcon } from "./ui/Icons";
 import { useTranslation } from "react-i18next";
 
 interface FuelSales {
-  id: number;
+  id: string;
   type: string;
   pricePerGal: number;
   quantityGal: number;
@@ -14,10 +14,10 @@ interface FuelSales {
 
 interface SalesListProps {
   fuelSales: FuelSales[];
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void;
 }
 
-const handleDelete = (id: number, onDelete: (id: number) => void, t: any) => {
+const handleDelete = (id: string, onDelete: (id: string) => void, t: any) => {
   Alert.alert(t("deleteConfirmationTitle"), t("deleteConfirmation"), [
     {
       text: t("cancel"),
