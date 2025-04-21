@@ -70,7 +70,7 @@ export interface AppState {
     >,
   >(
     field: K,
-    value: SalesSummary[K]
+    value: SalesSummary[K],
   ) => void;
   // setSalesSummary: (summaryData: Omit<SalesSummary, "total">) => void; // Mantenida por si acaso
 
@@ -81,7 +81,7 @@ export interface AppState {
 // --- Función de cálculo del Total General del Resumen ---
 // (Sin cambios, calcula el total final a partir de los otros campos del resumen)
 const calculateTotalSummary = (
-  summary: Omit<SalesSummary, "total">
+  summary: Omit<SalesSummary, "total">,
 ): number => {
   return (
     summary.fuelSales +
@@ -133,7 +133,7 @@ export const useAppStore = create<AppState>()(
           const updatedFuelSales = [...state.fuelSales, newSale];
           const newFuelSalesTotal = updatedFuelSales.reduce(
             (acc, sale) => acc + sale.total,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -149,11 +149,11 @@ export const useAppStore = create<AppState>()(
       removeFuelSale: (id) => {
         set((state) => {
           const updatedFuelSales = state.fuelSales.filter(
-            (sale) => sale.id !== id
+            (sale) => sale.id !== id,
           );
           const newFuelSalesTotal = updatedFuelSales.reduce(
             (acc, sale) => acc + sale.total,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -171,7 +171,7 @@ export const useAppStore = create<AppState>()(
         set((state) => {
           const newFuelSalesTotal = newFuelSales.reduce(
             (acc, sale) => acc + sale.total,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -195,7 +195,7 @@ export const useAppStore = create<AppState>()(
           const updatedExpenses = [...state.expenses, newExpense];
           const newExpensesTotal = updatedExpenses.reduce(
             (acc, exp) => acc + exp.amount,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -213,7 +213,7 @@ export const useAppStore = create<AppState>()(
           const updatedExpenses = state.expenses.filter((exp) => exp.id !== id);
           const newExpensesTotal = updatedExpenses.reduce(
             (acc, exp) => acc + exp.amount,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -230,7 +230,7 @@ export const useAppStore = create<AppState>()(
         set((state) => {
           const newExpensesTotal = newExpenses.reduce(
             (acc, exp) => acc + exp.amount,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -256,7 +256,7 @@ export const useAppStore = create<AppState>()(
           // Asumiendo que 'amount' en Lubricant es el valor a sumar
           const newLubricantsTotal = updatedLubricants.reduce(
             (acc, lub) => acc + lub.amount,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -272,11 +272,11 @@ export const useAppStore = create<AppState>()(
       removeLubricant: (id) => {
         set((state) => {
           const updatedLubricants = state.lubricants.filter(
-            (lub) => lub.id !== id
+            (lub) => lub.id !== id,
           );
           const newLubricantsTotal = updatedLubricants.reduce(
             (acc, lub) => acc + lub.amount,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -293,7 +293,7 @@ export const useAppStore = create<AppState>()(
         set((state) => {
           const newLubricantsTotal = newLubricants.reduce(
             (acc, lub) => acc + lub.amount,
-            0
+            0,
           );
           const newSummary = {
             ...state.salesSummary,
@@ -330,6 +330,6 @@ export const useAppStore = create<AppState>()(
     {
       name: "app-storage-v2", // Cambiar versión si la estructura cambia significativamente
       storage: createJSONStorage(() => AsyncStorage),
-    }
-  )
+    },
+  ),
 );

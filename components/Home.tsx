@@ -15,6 +15,7 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import { ArrowIcon } from "./ui/Icons";
 import { useAppStore, AppState } from "../services/zustandStore";
+import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 
 type SalesSummaryEntry = [
   keyof Omit<AppState["salesSummary"], "total"> | "total",
@@ -68,6 +69,7 @@ export const Home = () => {
     const isNavigable = navigableKeys.includes(key as any);
 
     const keyRoute = key.toLowerCase();
+
     return (
       <Pressable
         style={styles.itemContainer}
@@ -82,7 +84,11 @@ export const Home = () => {
               currency: "COP",
             })}
           </Text>
-          {isNavigable && <ArrowIcon width={20} height={20} color="#555" />}
+          {isNavigable && (
+            <React.Fragment>
+              <ArrowIcon width={20} height={20} color="#555" />
+            </React.Fragment>
+          )}
         </View>
       </Pressable>
     );
@@ -91,38 +97,36 @@ export const Home = () => {
   const summaryData = Object.entries(salesSummary) as SalesSummaryEntry[];
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Stack.Screen options={{ headerShown: false }} />
+    <View style={styles.headerSection}>
+      <Text style={styles.title}>{t("planilla de ventas")}</Text>
 
-      <View style={styles.headerSection}>
-        <Text style={styles.title}>{t("planilla de ventas")}</Text>
+      <View style={styles.infoContainer}>
+        <Pressable onPress={showDatepicker} style={styles.dateContainer}>
+          <Text>{t("dateOfSpreadsheet")}:</Text>
+          <Text style={styles.dateText}>
+            {dateSpreadsheet.toLocaleDateString("es-CO")}
+          </Text>
+        </Pressable>
 
-        <View style={styles.infoContainer}>
-          <Pressable onPress={showDatepicker} style={styles.dateContainer}>
-            <Text>{t("dateOfSpreadsheet")}: </Text>
-            <Text style={styles.dateText}>
-              {dateSpreadsheet.toLocaleDateString("es-CO")}
-            </Text>
-          </Pressable>
-
-          <View style={styles.userContainer}>
-            <Text>{t("user")}: </Text>
-            <Text style={styles.userText}>{user}</Text>
-          </View>
+        <View style={styles.userContainer}>
+          <Text>{t("user")}:</Text>
+          <Text style={styles.userText}>{user}</Text>
         </View>
       </View>
+    </View>
 
-      {showDateSpreadsheet && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={dateSpreadsheet}
-          mode={modeDateSpreadsheet}
-          is24Hour={true}
-          display="default"
-          onChange={onChangeDate}
-        />
-      )}
+    {showDateSpreadsheet && (
+      <DateTimePicker
+        testID="dateTimePicker"
+        value={dateSpreadsheet}
+        mode={modeDateSpreadsheet}
+        is24Hour={true}
+        display="default"
+        onChange={onChangeDate}
+      />
+    )}
 
+    <ScrollView style={{ flex: 1 }}>
       <FlatList
         data={summaryData}
         keyExtractor={(item) => item[0]}
@@ -130,17 +134,16 @@ export const Home = () => {
         style={styles.flatList}
         contentContainerStyle={styles.flatListContent}
       />
-
-      <View style={styles.totalContainer}>
-        <Text style={styles.totalKey}>{t("total").toUpperCase()}:</Text>
-        <Text style={styles.totalValue}>
-          {salesSummary.total.toLocaleString("es-CO", {
-            style: "currency",
-            currency: "COP",
-          })}
-        </Text>
-      </View>
-    </SafeAreaView>
+    </ScrollView>
+    <View style={styles.totalContainer}>
+      <Text style={styles.totalKey}>{t("total").toUpperCase()}:</Text>
+      <Text style={styles.totalValue}>
+        {salesSummary.total.toLocaleString("es-CO", {
+          style: "currency",
+          currency: "COP",
+        })}
+      </Text>
+    </View>
   );
 };
 

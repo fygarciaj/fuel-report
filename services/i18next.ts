@@ -3,7 +3,6 @@ import { initReactI18next } from "react-i18next";
 import en from "../locales/en.json";
 import es from "../locales/es.json";
 
-
 i18next.use(initReactI18next).init({
   resources: {
     en: {
@@ -16,7 +15,7 @@ i18next.use(initReactI18next).init({
   lng: "es",
   fallbackLng: "es",
   interpolation: {
-    escapeValue: false, 
+    escapeValue: false,
   },
 });
 

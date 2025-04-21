@@ -7,7 +7,7 @@ import { Home } from "@/components/Home";
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView>
       <ThemedView
         style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
       >

@@ -13,6 +13,8 @@ import {
 import i18next from "../services/i18next";
 import { I18nextProvider } from "react-i18next";
 import "react-native-get-random-values";
+import LoginScreen from "../components/Auth/LoginScreen"; // Import the LoginScreen
+import { useUserStore } from "../services/userStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -26,10 +28,11 @@ const theme = {
 };
 
 export default function RootLayout() {
-
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
+
+  const { isAuthenticated } = useUserStore();
 
   useEffect(() => {
     if (loaded) {
@@ -39,6 +42,24 @@ export default function RootLayout() {
 
   if (!loaded) {
     return null;
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <SafeAreaProvider>
+        <I18nextProvider i18n={i18next}>
+          <PaperProvider theme={theme}>
+            <Stack>
+              <Stack.Screen
+                name="auth/login"
+                options={{ headerShown: false }}
+              />
+            </Stack>
+            <StatusBar style="auto" />
+          </PaperProvider>
+        </I18nextProvider>
+      </SafeAreaProvider>
+    );
   }
 
   return (

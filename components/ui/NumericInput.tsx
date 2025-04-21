@@ -25,7 +25,7 @@ const NumericInput = forwardRef<TextInput, NumericInputProps>(
         style={[styles.input, props.style]}
       />
     );
-  }
+  },
 );
 
 const styles = StyleSheet.create({
